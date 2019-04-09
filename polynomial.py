@@ -31,11 +31,22 @@ class Polynomial:
 
     def eval(self, x):
         """Evaluate using Horner's method"""
+        return self._horners_coefficients(x)[0]
+
+    def derivative(self, x):
+        """Get the function's derivative using Horner's method."""
+        if self._num_terms == 1:
+            return 0  # constant
+        else:
+            return Polynomial(self._horners_coefficients(x)[1:]).eval(x)
+
+    def _horners_coefficients(self, x0):
+        b = np.ndarray(self._num_terms)
+
         i = self._num_terms - 2
-        b_last = self._coefficients[-1]
+        b[-1] = self._coefficients[-1]
         while i >= 0:
-            b = self._coefficients[i] + b_last * x
-            b_last = b
+            b[i] = self._coefficients[i] + b[i + 1] * x0
             i -= 1
 
-        return b_last
+        return b
