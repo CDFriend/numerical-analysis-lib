@@ -12,7 +12,7 @@ class Polynomial:
         self._coefficients = np.array(coefficients)
 
     def __repr__(self):
-        out = ""
+        out = "f(x) = "
         for i, a in enumerate(self._coefficients):
             if a == 0:
                 continue

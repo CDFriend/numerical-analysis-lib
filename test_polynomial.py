@@ -3,13 +3,13 @@ from polynomial import Polynomial
 
 def test_repr():
     p = Polynomial([1])
-    assert str(p) == "1"
+    assert str(p) == "f(x) = 1"
 
     p = Polynomial([1, 2, 3])
-    assert str(p) == "1 + 2x + 3*x^2"
+    assert str(p) == "f(x) = 1 + 2x + 3*x^2"
 
     p = Polynomial([-1, -2, -3])
-    assert str(p) == "-1 - 2x - 3*x^2"
+    assert str(p) == "f(x) = -1 - 2x - 3*x^2"
 
 
 def test_eval():
