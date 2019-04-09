@@ -30,9 +30,12 @@ class Polynomial:
         return out.strip()
 
     def eval(self, x):
-        # TODO: evaluate using Horner's method?
-        y = 0
-        for i in range(self._num_terms):
-            y += self._coefficients[i] * x ** i
+        """Evaluate using Horner's method"""
+        i = self._num_terms - 2
+        b_last = self._coefficients[-1]
+        while i >= 0:
+            b = self._coefficients[i] + b_last * x
+            b_last = b
+            i -= 1
 
-        return y
+        return b_last
