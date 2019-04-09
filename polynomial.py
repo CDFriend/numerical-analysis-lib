@@ -1,3 +1,4 @@
+import numbers
 import numpy as np
 
 
@@ -29,9 +30,51 @@ class Polynomial:
 
         return out.strip()
 
+    def degree(self):
+        return self._num_terms - 1
+
+    def terms(self):
+        return self._coefficients
+
+    def __add__(self, other):
+        t1, t2 = self.terms(), other.terms()
+        new_terms = np.ndarray(max(len(t1), len(t2)))
+
+        i = 0
+        for a, b in zip(t1, t2):
+            new_terms[i] = a + b
+            i += 1
+
+        return Polynomial(new_terms)
+
+    def __mul__(self, other):
+        if isinstance(other, numbers.Number):
+            # Multiply by a constant
+            return Polynomial(self._coefficients * other)
+        if type(other) == Polynomial:
+            # Multiply by another polynomial
+            new_degree = self.degree() + other.degree()
+            new_terms = np.zeros(new_degree + 1)
+
+            for i, a in enumerate(self.terms()):
+                for j, b in enumerate(other.terms()):
+                    deg = i + j
+                    new_terms[deg] += a * b
+
+            return Polynomial(new_terms)
+
     def eval(self, x):
         """Evaluate using Horner's method"""
         return self._horners_coefficients(x)[0]
+
+    def eval_range(self, a, b, num=50):
+        x = np.linspace(a, b, num=num)
+        y = np.ndarray(num)
+
+        for i in range(num):
+            y[i] = self.eval(x[i])
+
+        return x, y
 
     def derivative(self, x):
         """Get the function's derivative using Horner's method."""
